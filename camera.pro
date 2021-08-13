@@ -4,21 +4,21 @@ TARGET = camera
 QT += multimedia multimediawidgets
 
 HEADERS = \
-    camera.h \
     multiparturstatus.h \
+    resultspage.h \
+    scanpage.h \
+    urscanner.h \
+    urutils.h \
     videosurface.h
 
 SOURCES = \
     main.cpp \
-    camera.cpp \
     multiparturstatus.cpp \
+    resultspage.cpp \
+    scanpage.cpp \
+    urscanner.cpp \
+    urutils.cpp \
     videosurface.cpp
-
-FORMS += \
-    camera.ui
-
-target.path = $$[QT_INSTALL_EXAMPLES]/multimediawidgets/camera
-INSTALLS += target
 
 QT+=widgets
 
@@ -31,3 +31,7 @@ LIBS += -L/usr/local/lib -lopencv_world
 # bc-ur
 INCLUDEPATH += /usr/local/include/bc-ur
 LIBS += -L/usr/local/lib -lbc-ur
+
+# lifehash
+INCLUDEPATH += /usr/local/include/lifehash
+LIBS += -L/usr/local/lib -llifehash

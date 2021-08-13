@@ -4,16 +4,19 @@
 #include <QPainter>
 #include <QPen>
 
-#include <iostream>
+namespace urscanner
+{
 
 MultipartUrProgressBar::MultipartUrProgressBar(QWidget *parent)
     : QWidget(parent)
+    , m_NumParts(1)
+    , m_CompletedParts()
 {
 }
 
 void MultipartUrProgressBar::Reset()
 {
-    m_NumParts = 0;
+    m_NumParts = 1;
     m_CompletedParts.clear();
 }
 
@@ -69,16 +72,12 @@ MultipartUrStatus::MultipartUrStatus(QWidget* parent)
 
     connect(&m_CancelButton, SIGNAL(clicked(bool)), this, SIGNAL(Cancel()));
     connect(&m_CancelButton, SIGNAL(clicked(bool)), &m_ProgressBar, SLOT(Reset()));
-    connect(&m_CancelButton, SIGNAL(clicked(bool)), this, SLOT(hide()));
 }
 
-void MultipartUrStatus::SetNumParts(const size_t value)
+void MultipartUrStatus::UpdateProgress(const size_t value, const std::set<size_t> &parts)
 {
     m_ProgressBar.SetNumParts(value);
-}
-
-void MultipartUrStatus::SetCompletedParts(const std::set<size_t>& parts)
-{
     m_ProgressBar.SetCompletedParts(parts);
 }
 
+} // namespace urscanner

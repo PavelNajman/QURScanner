@@ -1,16 +1,19 @@
 #ifndef MULTIPARTURSTATUS_H
 #define MULTIPARTURSTATUS_H
 
+#include <set>
+
 #include <QWidget>
 #include <QPushButton>
 
-#include <set>
+namespace urscanner
+{
 
 class MultipartUrProgressBar : public QWidget
 {
     Q_OBJECT
 public:
-    MultipartUrProgressBar(QWidget* parent = nullptr);
+    explicit MultipartUrProgressBar(QWidget* parent = nullptr);
 
     void SetNumParts(const size_t value);
     void SetCompletedParts(const std::set<size_t>& parts);
@@ -33,8 +36,7 @@ public:
     explicit MultipartUrStatus(QWidget* parent = nullptr);
 
 public slots:
-    void SetNumParts(const size_t value);
-    void SetCompletedParts(const std::set<size_t>& parts);
+    void UpdateProgress(const size_t value, const std::set<size_t>& parts);
 
 signals:
     void Cancel();
@@ -43,5 +45,7 @@ private:
     MultipartUrProgressBar m_ProgressBar;
     QPushButton m_CancelButton;
 };
+
+} // namespace urscanner
 
 #endif // MULTIPARTURSTATUS_H

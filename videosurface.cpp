@@ -1,18 +1,15 @@
 #include "videosurface.h"
+
 #include <QVBoxLayout>
+#include <QPixmap>
 
-#include <algorithm>
-#include <regex>
+namespace urscanner
+{
 
-VideoSurface::VideoSurface(QLabel* label, MultipartUrStatus* status)
-    : m_Label(label)
-    , m_MultipartUrStatus(status)
+VideoSurface::VideoSurface(QObject* parent)
+    : QAbstractVideoSurface(parent)
 {
     m_Detector.reset(new cv::wechat_qrcode::WeChatQRCode("detect.prototxt", "detect.caffemodel", "sr.prototxt", "sr.caffemodel"));
-
-    connect(m_MultipartUrStatus, SIGNAL(Cancel()), this, SLOT(clear()));
-
-    m_MultipartUrStatus->hide();
 }
 
 bool VideoSurface::present(const QVideoFrame &frame)
@@ -42,10 +39,8 @@ bool VideoSurface::present(const QVideoFrame &frame)
     QImage image = ToQImage(mat);
 
     QPixmap p = QPixmap::fromImage(image);
-    m_Label->setPixmap(p.scaled(m_Label->size() - QSize(0, m_MultipartUrStatus->height()), Qt::KeepAspectRatio));
-    m_Label->update();
 
-    m_MultipartUrStatus->setMinimumWidth(m_Label->pixmap()->width());
+    emit NewFrame(p);
 
     return true;
 }
@@ -55,21 +50,19 @@ QList<QVideoFrame::PixelFormat> VideoSurface::supportedPixelFormats(QAbstractVid
     return {QVideoFrame::Format_RGB24};
 }
 
-void VideoSurface::pauseScanning()
+void VideoSurface::PauseScanning()
 {
     m_Paused = true;
 }
 
-void VideoSurface::resumeScanning()
+void VideoSurface::ResumeScanning()
 {
     m_Paused = false;
 }
 
-void VideoSurface::clear()
+void VideoSurface::CancelMultipartUrScan()
 {
     m_CommitedToMultipart = false;
-    m_DecodedQrData.clear();
-    m_MultipartUrStatus->hide();
 }
 
 cv::Mat VideoSurface::ToMat(const QVideoFrame& frame) const
@@ -80,23 +73,6 @@ cv::Mat VideoSurface::ToMat(const QVideoFrame& frame) const
         case QVideoFrame::Format_RGB24:
         {
             const cv::Mat view(frame.height(), frame.width(), CV_8UC3, (void *)frame.bits(), frame.bytesPerLine());
-            cv::cvtColor(view, result, cv::COLOR_RGB2BGR);
-            break;
-        }
-        default:
-            break;
-    }
-    return result;
-}
-
-cv::Mat VideoSurface::ToMat(const QImage& image) const
-{
-    cv::Mat result;
-    switch(image.format())
-    {
-        case QImage::Format_RGB888:
-        {
-            cv::Mat view(image.height(), image.width(), CV_8UC3, (void *)image.constBits(), image.bytesPerLine());
             cv::cvtColor(view, result, cv::COLOR_RGB2BGR);
             break;
         }
@@ -125,18 +101,6 @@ QImage VideoSurface::ToQImage(const cv::Mat& image) const
     return result;
 }
 
-QImage VideoSurface::ToQImage(const QVideoFrame& frame) const
-{
-    switch(frame.pixelFormat())
-    {
-        case QVideoFrame::Format_RGB24:
-            return QImage(frame.bits(), frame.width(), frame.height(), frame.bytesPerLine(), QImage::Format_RGB888);
-        default:
-            break;
-    }
-    return {};
-}
-
 void VideoSurface::FindQrEncodedUrs(cv::Mat& img)
 {
     std::vector<cv::Mat> points;
@@ -153,6 +117,7 @@ void VideoSurface::FindQrEncodedUrs(cv::Mat& img)
         if (!m_CommitedToMultipart)
         {   // when no decoding is in progress, reset decoder
             m_UrDecoder.reset(new ur::URDecoder());
+            m_DecodedQrData.clear();
         }
 
         if (m_UrDecoder->receive_part(res[i]))
@@ -164,30 +129,14 @@ void VideoSurface::FindQrEncodedUrs(cv::Mat& img)
         if (m_UrDecoder->is_complete())
         {   // when the decoding is complete, emit signal with the result
             m_CommitedToMultipart = false;
-            emit newResult(m_DecodedQrData);
+            emit NewResult(m_UrDecoder->result_ur(), m_DecodedQrData);
         }
 
         if (m_CommitedToMultipart)
         {   // when multi-part ur decoding is in progress, display and update progress
-            m_MultipartUrStatus->SetNumParts(m_UrDecoder->expected_part_count());
-            m_MultipartUrStatus->SetCompletedParts(m_UrDecoder->received_part_indexes());
-            m_MultipartUrStatus->setMinimumHeight(10);
-            m_MultipartUrStatus->show();
-            m_MultipartUrStatus->update();
+            emit UpdateMultipartUrProgress(m_UrDecoder->expected_part_count(), m_UrDecoder->received_part_indexes());
         }
     }
 }
 
-bool VideoSurface::IsMultiPartUr(const std::string& str) const
-{
-    const auto multiPartUrRegex = std::regex("ur:[a-zA-Z0-9-]+/[1-9][0-9]*-[1-9][0-9]*/[a-z]+");
-    return std::regex_match(str, multiPartUrRegex);
-}
-
-bool VideoSurface::IsSinglePartUr(const std::string& str) const
-{
-    const auto singlePartUrRegex = std::regex("ur:[a-zA-Z0-9-]+/[a-z]+");
-    return std::regex_match(str, singlePartUrRegex);
-}
-
-
+} // namespace urscanner
