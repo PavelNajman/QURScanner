@@ -23,7 +23,7 @@
 #include <QMediaRecorder>
 #include <QMessageBox>
 
-namespace urscanner
+namespace qurscanner
 {
 
 ScanPage::ScanPage(QWidget *parent)
@@ -153,4 +153,4 @@ void ScanPage::DisplayCameraError()
     QMessageBox::warning(this, tr("Camera Error"), m_Camera->errorString());
 }
 
-} // namespace urscanner
+} // namespace qurscanner

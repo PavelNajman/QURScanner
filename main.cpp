@@ -18,13 +18,13 @@
  */
 #include <QtWidgets>
 
-#include "urscanner.h"
+#include "qurscanner.h"
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    urscanner::UrScanner scanner;
+    qurscanner::QURScanner scanner;
     scanner.show();
 
     return app.exec();

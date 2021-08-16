@@ -23,7 +23,7 @@
 
 #include <lifehash.hpp>
 
-namespace urscanner
+namespace qurscanner
 {
 
 ResultsPage::ResultsPage(QWidget* parent)
@@ -67,4 +67,4 @@ void ResultsPage::AppendResults(const ur::UR& ur, const std::set<std::string, Ur
     m_ResultsTextBrowser->append("\n");
 }
 
-} // namespace urscanner
+} // namespace qurscanner

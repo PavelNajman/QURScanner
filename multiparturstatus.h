@@ -25,7 +25,7 @@
 #include <QWidget>
 #include <QPushButton>
 
-namespace urscanner
+namespace qurscanner
 {
 
 class MultipartUrProgressBar : public QWidget
@@ -65,6 +65,6 @@ private:
     QPushButton m_CancelButton;
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // MULTIPARTURSTATUS_H

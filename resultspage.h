@@ -30,7 +30,7 @@
 
 #include "urutils.h"
 
-namespace urscanner
+namespace qurscanner
 {
 
 class ResultsPage : public QWidget
@@ -52,6 +52,6 @@ private:
     size_t m_LifeHashImageId = 0;
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // RESULTSPAGE_H

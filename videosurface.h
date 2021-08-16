@@ -32,7 +32,7 @@
 
 #include "urutils.h"
 
-namespace urscanner
+namespace qurscanner
 {
 
 class VideoSurface : public QAbstractVideoSurface
@@ -69,6 +69,6 @@ private:
     bool m_CommitedToMultipart = false;
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // VIDEOSURFACE_H

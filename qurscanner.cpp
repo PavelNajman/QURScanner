@@ -17,14 +17,14 @@
  *  FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#include "urscanner.h"
+#include "qurscanner.h"
 
 #include <bc-ur.hpp>
 
-namespace urscanner
+namespace qurscanner
 {
 
-UrScanner::UrScanner(QWidget* parent)
+QURScanner::QURScanner(QWidget* parent)
     : QStackedWidget(parent)
     , m_ScanPage(new ScanPage)
     , m_ResultsPage(new ResultsPage)
@@ -38,14 +38,14 @@ UrScanner::UrScanner(QWidget* parent)
     connect(m_ResultsPage, SIGNAL(NewScan()), this, SLOT(ShowScanPage()));
 }
 
-void UrScanner::ShowResultsPage()
+void QURScanner::ShowResultsPage()
 {
     setCurrentIndex(1);
 }
 
-void UrScanner::ShowScanPage()
+void QURScanner::ShowScanPage()
 {
     setCurrentIndex(0);
 }
 
-} // namespace urscanner
+} // namespace qurscanner

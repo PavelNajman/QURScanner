@@ -22,7 +22,7 @@
 
 #include <string>
 
-namespace urscanner
+namespace qurscanner
 {
 
 bool IsMultiPartUr(const std::string&);
@@ -42,6 +42,6 @@ struct UrCompare
     }
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // UR_UTILS_H

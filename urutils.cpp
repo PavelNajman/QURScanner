@@ -21,7 +21,7 @@
 
 #include <regex>
 
-namespace urscanner
+namespace qurscanner
 {
 
 bool IsMultiPartUr(const std::string& str)
@@ -47,4 +47,4 @@ int GetMultipartUrSeqNum(const std::string& str)
     return -1;
 }
 
-} // namespace urscanner
+} // namespace qurscanner

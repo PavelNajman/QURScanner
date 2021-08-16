@@ -22,7 +22,7 @@
 #include <QVBoxLayout>
 #include <QPixmap>
 
-namespace urscanner
+namespace qurscanner
 {
 
 VideoSurface::VideoSurface(QObject* parent)
@@ -165,4 +165,4 @@ void VideoSurface::FindQrEncodedUrs(cv::Mat& img)
     }
 }
 
-} // namespace urscanner
+} // namespace qurscanner

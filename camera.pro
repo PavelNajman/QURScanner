@@ -23,18 +23,18 @@ QT += multimedia multimediawidgets
 
 HEADERS = \
     multiparturstatus.h \
+    qurscanner.h \
     resultspage.h \
     scanpage.h \
-    urscanner.h \
     urutils.h \
     videosurface.h
 
 SOURCES = \
     main.cpp \
     multiparturstatus.cpp \
+    qurscanner.cpp \
     resultspage.cpp \
     scanpage.cpp \
-    urscanner.cpp \
     urutils.cpp \
     videosurface.cpp
 

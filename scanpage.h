@@ -33,7 +33,7 @@
 #include <QCamera>
 #include <QCameraInfo>
 
-namespace urscanner
+namespace qurscanner
 {
 
 class ScanPage : public QWidget
@@ -70,6 +70,6 @@ private:
     QScopedPointer<QCamera> m_Camera;
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // SCANPAGE_H

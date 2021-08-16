@@ -23,7 +23,7 @@
 #include <QPainter>
 #include <QPen>
 
-namespace urscanner
+namespace qurscanner
 {
 
 MultipartUrProgressBar::MultipartUrProgressBar(QWidget *parent)
@@ -99,4 +99,4 @@ void MultipartUrStatus::UpdateProgress(const size_t value, const std::set<size_t
     m_ProgressBar.SetCompletedParts(parts);
 }
 
-} // namespace urscanner
+} // namespace qurscanner

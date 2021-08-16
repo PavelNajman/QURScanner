@@ -25,14 +25,14 @@
 #include "scanpage.h"
 #include "resultspage.h"
 
-namespace urscanner
+namespace qurscanner
 {
 
-class UrScanner : public QStackedWidget
+class QURScanner : public QStackedWidget
 {
     Q_OBJECT
 public:
-    explicit UrScanner(QWidget* parent = nullptr);
+    explicit QURScanner(QWidget* parent = nullptr);
 
 private slots:
     void ShowResultsPage();
@@ -43,6 +43,6 @@ private:
     ResultsPage* m_ResultsPage;
 };
 
-} // namespace urscanner
+} // namespace qurscanner
 
 #endif // URSCANNER_H
