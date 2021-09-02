@@ -26,19 +26,19 @@ namespace qurscanner
 
 bool IsMultiPartUr(const std::string& str)
 {
-    const auto multiPartUrRegex = std::regex("ur:[a-zA-Z0-9-]+/[1-9][0-9]*-[1-9][0-9]*/[a-z]+");
+    const auto multiPartUrRegex = std::regex("[uU][rR]:[a-zA-Z0-9-]+/[1-9][0-9]*-[1-9][0-9]*/[a-zA-Z]+");
     return std::regex_match(str, multiPartUrRegex);
 }
 
 bool IsSinglePartUr(const std::string& str)
 {
-    const auto singlePartUrRegex = std::regex("ur:[a-zA-Z0-9-]+/[a-z]+");
+    const auto singlePartUrRegex = std::regex("[uU][rR]:[a-zA-Z0-9-]+/[a-zA-Z]+");
     return std::regex_match(str, singlePartUrRegex);
 }
 
 int GetMultipartUrSeqNum(const std::string& str)
 {
-    const auto multiPartUrRegexWithSeqNumCapture = std::regex("ur:[a-zA-Z0-9-]+/([1-9][0-9]*)-[1-9][0-9]*/[a-z]+");
+    const auto multiPartUrRegexWithSeqNumCapture = std::regex("[uU][rR]:[a-zA-Z0-9-]+/([1-9][0-9]*)-[1-9][0-9]*/[a-zA-Z]+");
     std::smatch match;
     if (std::regex_match(str, match, multiPartUrRegexWithSeqNumCapture))
     {
