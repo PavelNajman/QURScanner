@@ -17,7 +17,7 @@
 
 
 TEMPLATE = app
-TARGET = urscanner
+TARGET = qurscanner
 
 QT += multimedia multimediawidgets
 
