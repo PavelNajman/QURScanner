@@ -5,7 +5,8 @@ QURScanner is a Qt widget whose main purpose is to demonstrate the receiving of 
 ## Getting started
 The demo can be built using either qmake
 ```
-qmake
+mkdir build && cd build
+qmake ..
 make
 ```
 or CMake.
